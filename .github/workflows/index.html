@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>udee365plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#cfefff;
+      --bg2:#a3e7ff;
+      --accent:#06b6d4;
+      --neon:#03e9f4;
+      --card:#81a1e2;
+      --glass: rgba(255,255,255,0.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(180deg,var(--bg1),#bfe9ff);
+      min-height:100vh;
+      color:#023047;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* container */
+    .wrap{
+      max-width:520px;
+      margin:20px auto;
+      padding:18px;
+    }
+
+    /* bubbles (background animated) */
+    .bubbles {
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .bubble {
+      position:absolute;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.05));
+      opacity:0.85;
+      border-radius:50%;
+      mix-blend-mode:screen;
+      box-shadow:0 8px 30px rgba(3,233,244,0.18);
+      animation: floatUp linear infinite;
+      filter: blur(6px);
+    }
+    @keyframes floatUp {
+      from { transform: translateY(120vh) scale(0.6); opacity:0; }
+      10% { opacity:0.6; }
+      50% { opacity:0.9; }
+      to { transform: translateY(-40vh) scale(1.0); opacity:0; }
+    }
+
+    /* top online pill */
+    .online-pill{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      align-items:center;
+      background:rgba(255, 255, 255, 0.7);
+      padding:10px 18px;
+      border-radius:36px;
+      width:100%;
+      max-width:400px;
+      margin: 6px auto 18px;
+      box-shadow:0 6px 18px rgba(3,50,80,0.08);
+      position:relative;
+      z-index:2;
+      backdrop-filter: blur(6px);
+    }
+    .online-pill .label{ font-weight:600; color:#060a15; opacity:0.9; }
+    .online-pill .num{ font-weight:800; color:var(--neon); font-size:1.4rem; margin-left:6px; text-shadow:0 6px 22px rgba(3,233,244,0.35); }
+
+    /* profile area */
+    .profile{
+      text-align:center;
+      margin-top:6px;
+      z-index:2;
+      position:relative;
+    }
+    .logo{
+      width:96px;
+      height:96px;
+      border-radius:50%;
+      margin:0 auto 8px;
+      background-size:cover;
+      background-position:center;
+      box-shadow: none;
+      border: none;
+    }
+    .title{
+      font-size:1.5rem;
+      font-weight:800;
+      color:#0b3a52;
+      margin-bottom:12px;
+      text-shadow:0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    /* buttons */
+    .btn-list{ display:grid; gap:12px; margin-bottom:18px; z-index:2; position:relative; }
+    .btn{
+      display:block;
+      padding:14px 18px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.35), rgba(255,255,255,0.18));
+      border-radius:14px;
+      text-align:center;
+      font-weight:600;
+      color:#05364a;
+      text-decoration:none;
+      box-shadow:0 8px 24px rgba(3,50,80,0.08);
+      border:1px solid rgba(233, 222, 222, 0.2);
+    }
+
+    /* jackpot card */
+    .jackpot{
+      margin:18px 0;
+      background: linear-gradient(180deg,#051322,#062738);
+      border-radius:14px;
+      padding:22px;
+      color:#e6faff;
+      position:relative;
+      z-index:2;
+      box-shadow: 0 20px 40px rgba(3,50,80,0.25), inset 0 -6px 30px rgba(0,0,0,0.25);
+      border: 2px solid rgba(3,233,244,0.08);
+    }
+    .jackpot .label{
+      font-size:0.9rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      text-align:center;
+      opacity:0.9;
+    }
+    .jackpot .amount{
+      display:block;
+      font-size:2.6rem;
+      margin-top:8px;
+      font-weight:800;
+      text-align:center;
+      color:var(--neon);
+      text-shadow:
+        0 6px 22px rgba(3,233,244,0.35),
+        0 0 32px rgba(3,233,244,0.25),
+        0 0 60px rgba(3,233,244,0.12);
+      -webkit-text-stroke: 1px rgba(0,0,0,0.18);
+    }
+    /* neon border */
+    .jackpot::before{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:18px;
+      background: linear-gradient(90deg, rgba(3,233,244,0.18), rgba(3,125,180,0.12));
+      filter: blur(10px);
+      z-index:-1;
+      opacity:0.95;
+    }
+
+    /* secondary big button */
+    .big-btn{
+      margin: 14px 0;
+      padding:20px;
+      border-radius:12px;
+      background: linear-gradient(180deg,#0b1016,#0e1a26);
+      color:#fff;
+      font-weight:700;
+      text-align:center;
+      box-shadow: 0 18px 40px rgba(2,10,20,0.45);
+      border:1px solid rgba(255,255,255,0.03);
+      text-decoration:none;
+    }
+
+    /* footer spacing */
+    .spacer{ height:120px }
+
+    /* responsive */
+    @media (max-width:420px){
+      .wrap{ padding:14px; }
+      .jackpot .amount{ font-size:2.2rem; }
+    }
+  </style>
+  
+</head>
+<body>
+  
+  <div class="bubbles" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <!-- ONLINE PILL -->
+    <div class="online-pill">
+      <div class="label">ออนไลน์</div>
+      <div class="num" id="onlineCount">0</div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile">
+      <!-- เปลี่ยน background-image เป็นโลโก้ของคุณ -->
+      <div class="logo" id="logo">
+        <img src="https://udee365.net/wp-content/uploads/2025/04/logo1.webp" alt="UDEE365PLUS logo" width="100" height="100">
+      </div>
+      <div class="title" id="siteTitle">UDEE365PLUS</div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-list">
+      <!-- แก้ href เป็นลิงก์จริงของคุณ -->
+      <a class="btn" href="https://udee365.bond/register?ref=ud99993224" target="_blank">สมัครรับข้อมูล</a>
+      <a class="btn" href="https://lin.ee/15ZA5Lm" target="_blank">ติดต่อแอดมิน</a>
+    </div>
+
+    <!-- JACKPOT -->
+    <div class="jackpot" role="region" aria-label="Progressive Jackpot">
+      <div class="label">PROGRESSIVE JACKPOT</div>
+      <div class="amount" id="jackpotAmount">0</div>
+    </div>
+
+    <!-- BIG BUTTON -->
+    
+
+  <!-- SCRIPTS: เปลี่ยนค่าเริ่มต้นได้ที่ตัวแปรด้านล่าง -->
+  <script>
+    // ====== CONFIG (แก้ค่าตรงนี้) ======
+    const initialOnline = 854273;   // ค่าแสดงออนไลน์เริ่มต้น
+    const onlineIncrementRange = [1, 2]; // เพิ่มขึ้นแบบสุ่มทุกวินาที (min,max)
+    const initialJackpot = 9967603; // ค่าแจ็กพ็อตเริ่มต้น
+    const jackpotIncrementPerTick = [80, 800]; // เพิ่มแจ็กพ็อตแบบสุ่มต่อ tick
+    const jackpotTickMs = 5500; // ms ระหว่างการเพิ่มแจ็กพ็อต
+    // =====================================
+
+    // online counter animation
+    const onlineEl = document.getElementById('onlineCount');
+    let online = initialOnline;
+    function onlineTick(){
+      const r = Math.floor(Math.random() * (onlineIncrementRange[1] - onlineIncrementRange[0] + 1)) + onlineIncrementRange[0];
+      online += r;
+      onlineEl.textContent = online.toLocaleString();
+    }
+    onlineEl.textContent = online.toLocaleString();
+    setInterval(onlineTick, 5000);
+
+    // jackpot animation (smooth counting)
+    const jackEl = document.getElementById('jackpotAmount');
+    let jackpot = initialJackpot;
+    jackEl.textContent = jackpot.toLocaleString();
+
+    function jackpotTick(){
+      const add = Math.floor(Math.random() * (jackpotIncrementPerTick[1] - jackpotIncrementPerTick[0] + 1)) + jackpotIncrementPerTick[0];
+      const target = jackpot + add;
+      // smoothly animate to new target in steps
+      const steps = 20;
+      const stepVal = (target - jackpot) / steps;
+      let current = jackpot;
+      let step = 0;
+      const interval = setInterval(()=>{
+        step++;
+        current += stepVal;
+        jackEl.textContent = Math.floor(current).toLocaleString();
+        if(step >= steps){
+          clearInterval(interval);
+          jackpot = Math.floor(target);
+          jackEl.textContent = jackpot.toLocaleString();
+        }
+      }, Math.max(20, jackpotTickMs/steps));
+    }
+    setInterval(jackpotTick, jackpotTickMs);
+
+    // BUBBLES: generate some floating blobs to mimic effect
+    const bubbles = document.querySelector('.bubbles');
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    const bubbleCount = 14;
+    for(let i=0;i<bubbleCount;i++){
+      const b = document.createElement('div');
+      b.className='bubble';
+      const size = rand(18,110);
+      b.style.width = size + 'px';
+      b.style.height = size + 'px';
+      b.style.left = (rand(-10,95)) + '%';
+      b.style.bottom = '-' + rand(10,40) + 'vh';
+      b.style.animationDuration = rand(10,30) + 's';
+      b.style.opacity = rand(0.06,0.35);
+      bubbles.appendChild(b);
+    }
+
+    // Optional: change logo and title dynamically (if you want)
+    // document.getElementById('logo').style.backgroundImage = "url('https://example.com/yourlogo.png')";
+    // document.getElementById('siteTitle').textContent = "UDEE365";
+
+    // Optional: clicking big button can open link
+    document.getElementById('luckyBtn').addEventListener('click',(e)=>{
+      e.preventDefault();
+      // แก้เป็นลิงก์ที่ต้องการ
+      window.open('https://mssg.me/yourusername','_blank');
+    });
+  </script>
+  <div bis_skin_checked="1">
+<script data-evaluated="true">
+  // ...existing code...
+    setInterval(() => {
+      createCard();
+      const cards = document.querySelectorAll(".withdraw-card");
+      if (cards.length > 10) {
+        cards[cards.length - 1].remove();
+      }
+    }, 8000); // ช้าลงเป็น 8 วินาที (เดิม 4000)
+
+    document.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i < 3; i++) createCard();
+    });
+  </script>
+
+  <meta charset="UTF-8">
+  <title>แจ้งถอนล่าสุด</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #51bee6;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .section-box {
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .section-title {
+      font-size: 24px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      animation: pulse 2s infinite;
+    }
+
+    .section-title .emoji {
+      filter: drop-shadow(0 0 6px white);
+    }
+
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 10px white; }
+      50% { text-shadow: 0 0 20px white; }
+    }
+
+    .withdraw-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .withdraw-card {
+      background: #000;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      animation: fadeIn 0.4s ease-in-out;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .withdraw-card .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-name img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      padding: 2px;
+      object-fit: contain;
+    }
+
+    .amount {
+      font-weight: bold;
+      color: #ff4444;
+    }
+
+    .time-date {
+      font-size: 12px;
+      color: #ccc;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ref {
+      font-size: 11px;
+      color: #999;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #00ff99;
+    }
+
+    .status.pending {
+      color: #ffdd57;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+
+  <div class="section-box" bis_skin_checked="1">
+    <h2 class="section-title">
+      <span class="emoji">💸</span> รางวัลผู้โชคดี <span class="emoji">💸</span>
+    </h2>
+    <div class="withdraw-grid" id="withdraw-list" bis_skin_checked="1"><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/bbl.png" alt="Bank Logo"> เพชรศรี (061-XXXX-210)
+          </div>
+          <div class="amount" bis_skin_checked="1">6,177 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:32</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#5293915</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/ttb.png" alt="Bank Logo"> รัตนากร (081-XXXX-890)
+          </div>
+          <div class="amount" bis_skin_checked="1">20,705 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:28</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#7532703</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/ttb.png" alt="Bank Logo"> สมจิตร (061-XXXX-775)
+          </div>
+          <div class="amount" bis_skin_checked="1">84,976 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:24</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#6273329</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/ttb.png" alt="Bank Logo"> วิภาพร (082-XXXX-674)
+          </div>
+          <div class="amount" bis_skin_checked="1">78,347 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:20</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#7594659</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/bbl.png" alt="Bank Logo"> จันทร์แรม (082-XXXX-158)
+          </div>
+          <div class="amount" bis_skin_checked="1">54,928 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:16</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#5526843</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/scb.png" alt="Bank Logo"> รักษา (089-XXXX-826)
+          </div>
+          <div class="amount" bis_skin_checked="1">85,186 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:12</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#2002571</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/krungsri.png" alt="Bank Logo"> วิเชียร (081-XXXX-717)
+          </div>
+          <div class="amount" bis_skin_checked="1">86,607 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:08</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#3385109</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/ktb.png" alt="Bank Logo"> พนิดา (082-XXXX-284)
+          </div>
+          <div class="amount" bis_skin_checked="1">34,059 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:04</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#7931549</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/krungsri.png" alt="Bank Logo"> สมหญิง (065-XXXX-207)
+          </div>
+          <div class="amount" bis_skin_checked="1">64,592 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:08:00</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#1016908</div>
+      </div><div class="withdraw-card" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+          <div class="user-name" bis_skin_checked="1">
+            <img src="https://cdn.ggautopay.com/images/banks-img/ktb.png" alt="Bank Logo"> วิเชียร (081-XXXX-048)
+          </div>
+          <div class="amount" bis_skin_checked="1">69,433 ฿</div>
+        </div>
+        <div class="time-date" bis_skin_checked="1">
+          <span>22:07:56</span>
+          <span class="status">✔️ โอนแล้ว</span>
+        </div>
+        <div class="ref" bis_skin_checked="1">REF#7780628</div>
+      </div></div>
+  </div>
+
+  <audio id="pop-sound" preload="auto">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+  </audio>
+
+  <script data-evaluated="true">
+    const names = ["สมชาย", "สมหญิง", "ศิริพร", "ยุพา", "วิเชียร", "พนิดา", "รัตนา", "ชไมพร"];
+    const banks = [
+      { img: 'https://cdn.ggautopay.com/images/banks-img/scb.png' },
+      { img: 'https://cdn.ggautopay.com/images/banks-img/kbank.png' },
+      { img: 'https://cdn.ggautopay.com/images/banks-img/ttb.png' },
+      { img: 'https://cdn.ggautopay.com/images/banks-img/bbl.png' },
+      { img: 'https://cdn.ggautopay.com/images/banks-img/ktb.png' },
+      { img: 'https://cdn.ggautopay.com/images/banks-img/krungsri.png' }
+    ];
+
+    function generatePhone() {
+      const prefix = ['081', '082', '065', '089', '061'];
+      const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      return `${prefix[Math.floor(Math.random() * prefix.length)]}-XXXX-${random}`;
+    }
+
+    function getCurrentTime() {
+      const now = new Date();
+      return now.toLocaleTimeString('th-TH', { hour12: false });
+    }
+
+    function createCard() {
+      const name = names[Math.floor(Math.random() * names.length)];
+      const bank = banks[Math.floor(Math.random() * banks.length)];
+      const amount = Math.floor(Math.random() * 90000) + 1000;
+
+      const card = document.createElement('div');
+      card.className = 'withdraw-card';
+      card.innerHTML = `
+        <div class="row">
+          <div class="user-name">
+            <img src="${bank.img}" alt="Bank Logo"> ${name} (${generatePhone()})
+          </div>
+          <div class="amount">${amount.toLocaleString()} ฿</div>
+        </div>
+        <div class="time-date">
+          <span>${getCurrentTime()}</span>
+          <span class="status pending">⏳ กำลังโอน</span>
+        </div>
+        <div class="ref">REF#${Math.floor(1000000 + Math.random() * 9000000)}</div>
+      `;
+
+      document.getElementById('pop-sound').play().catch(() => {});
+
+      const withdrawList = document.getElementById('withdraw-list');
+      withdrawList.prepend(card);
+
+      setTimeout(() => {
+        const status = card.querySelector('.status');
+        if (status) {
+          status.textContent = "✔️ โอนแล้ว";
+          status.classList.remove("pending");
+        }
+      }, 1000);
+    }
+
+    setInterval(() => {
+      createCard();
+      const cards = document.querySelectorAll(".withdraw-card");
+      if (cards.length > 10) {
+        cards[cards.length - 1].remove();
+      }
+    }, 4000);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i < 3; i++) createCard();
+    });
+  </script>
+
+</div>
+
+</body>
+</html>
